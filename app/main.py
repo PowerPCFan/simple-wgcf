@@ -6,6 +6,7 @@ from typing import Callable
 
 from commands.generate import generate_command
 from commands.register import register_command
+from commands.test_speed import test_speed_command
 
 
 def run_cmd(
@@ -50,12 +51,19 @@ def main():
         help="Register a new Cloudflare WARP account"
     )
 
+    register_parser = subparsers.add_parser(
+        "test-speed",
+        help="Test your internet speed (useful for testing speed with Cloudflare WARP enabled)"
+    )
+
     args = parser.parse_args()
 
     if args.command == "generate":
         run_cmd(generate_command, mtu=args.mtu, filename=args.filename)
     elif args.command == "register":
         run_cmd(register_command)
+    elif args.command == "test-speed":
+        run_cmd(test_speed_command)
     else:
         parser.print_help()
 

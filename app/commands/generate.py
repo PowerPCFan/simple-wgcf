@@ -5,6 +5,8 @@ from modules.utils import load_config, get_source_device, create_wireguard_confi
 
 
 def generate_command(mtu: int, filename: str) -> None:
+    print(color.blue("Generating WireGuard profile...") + "\n")
+
     # Validate MTU
     if mtu < 576 or mtu > 1440:
         print(color.yellow("Warning: MTU is outside of the range 576-1440. You may experience issues."))
@@ -13,8 +15,6 @@ def generate_command(mtu: int, filename: str) -> None:
     if not filename.replace('_', '').replace('-', '').isalnum():
         print(color.yellow("Warning: Filename contains invalid characters. Using default 'cloudflare-warp-profile'."))
         filename = "cloudflare-warp-profile"
-
-    print(color.blue("Generating WireGuard profile..."))
 
     try:
         PROFILE_FILE: Path = WGCF_HOME_DIR / (filename + ".conf")
