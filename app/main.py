@@ -1,16 +1,23 @@
 import argparse
 import sys
 import modules.color as color
+import modules.global_vars as gv
 from typing import Callable
 
 from commands.generate import generate_command
 from commands.register import register_command
 
 
-def run_cmd(command: Callable) -> None:
+def run_cmd(
+    command: Callable[gv.P, gv.R],
+    *args: gv.P.args,
+    **kwargs: gv.P.kwargs
+) -> gv.R:
     print()
-    command()
+    res = command(*args, **kwargs)
     print()
+
+    return res
 
 
 def main():

@@ -1,4 +1,8 @@
 from pathlib import Path
+from typing import ParamSpec, TypeVar
+
+P = ParamSpec("P")
+R = TypeVar("R")
 
 WGCF_HOME_DIR: Path = Path.home() / ".simple-wgcf"
 WGCF_HOME_DIR.mkdir(exist_ok=True)
