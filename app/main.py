@@ -26,28 +26,38 @@ def main():
         add_help=True
     )
 
-    group = parser.add_mutually_exclusive_group()
+    subparsers = parser.add_subparsers(dest="command")
 
-    group.add_argument(
-        "--generate",
-        action="store_true",
+    generate_parser = subparsers.add_parser(
+        "generate",
         help="Generate a WireGuard profile from existing account"
     )
-    group.add_argument(
-        "--register",
-        action="store_true",
+    generate_parser.add_argument(
+        "--mtu",
+        type=int,
+        default=1280,
+        help="Set the MTU value for the generated profile (default: 1280)"
+    )
+    generate_parser.add_argument(
+        "--filename",
+        type=str,
+        default="cloudflare-warp-profile",
+        help="Set the filename for the generated profile (default: cloudflare-warp-profile)"
+    )
+
+    register_parser = subparsers.add_parser(
+        "register",
         help="Register a new Cloudflare WARP account"
     )
 
     args = parser.parse_args()
 
-    # Handle commands
-    if args.generate:
-        run_cmd(generate_command)
-    elif args.register:
+    if args.command == "generate":
+        run_cmd(generate_command, mtu=args.mtu, filename=args.filename)
+    elif args.command == "register":
         run_cmd(register_command)
     else:
-        print("No command specified. Use --help / -h for usage information.")
+        parser.print_help()
 
 
 if __name__ == "__main__":

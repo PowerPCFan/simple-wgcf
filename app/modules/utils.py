@@ -59,11 +59,13 @@ def make_api_request(
 
         response.raise_for_status()
         return response.json()
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 500:
-            print(f"API Error: HTTP {e.response.status_code}")
+    except requests.JSONDecodeError:
+        raise Exception("API response does not contain valid JSON data")
+    except requests.Timeout:
+        raise Exception("Request timed out")
+    except requests.HTTPError as e:
         raise Exception(f"HTTP {e.response.status_code}: {e.response.reason}")
-    except requests.exceptions.RequestException as e:
+    except requests.RequestException as e:
         raise Exception(f"Request failed: {e}")
 
 
@@ -127,14 +129,15 @@ def create_wireguard_config_file(
     private_key: str,
     ipv4_addresses: str,
     ipv6_addresses: str,
+    mtu: str,
     public_key: str,
     endpoint: str
 ) -> CaseSensitiveConfigParser:
-    interface = {
+    interface: dict[str, str] = {
         "PrivateKey": private_key,
         "Address": f"{ipv4_addresses}/32, {ipv6_addresses}/128",
         "DNS": "1.1.1.1, 1.0.0.1, 2606:4700:4700::1111, 2606:4700:4700::1001",
-        "MTU": "1280",
+        "MTU": mtu,
     }
 
     peer = {

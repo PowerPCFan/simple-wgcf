@@ -1,3 +1,4 @@
 # simple-wgcf
 
-TODO: write readme lol
+Commands:
+- 
