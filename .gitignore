@@ -1,5 +1,9 @@
-venv/
+*venv/
 __pycache__/
 *.pyc
 .DS_Store
 .env
+
+dist/
+build/
+*.spec
