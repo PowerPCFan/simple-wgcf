@@ -2,6 +2,8 @@
 
 Simple-WGCF: A Wireguard profile generator for Cloudflare WARP
 
+#### Blog post with 'how to use' instructions: https://blog.powerpcfan.xyz/posts/cloudflare-warp-wireguard-setup/
+
 ### Commands:
 - `(no command)` - Show help message
   - Options:
